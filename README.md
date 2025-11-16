@@ -1,4 +1,4 @@
-# LLaDA-V: Large Language Diffusion Models with Visual Instruction Tuning
+<!-- # LLaDA-V: Large Language Diffusion Models with Visual Instruction Tuning
 [![arXiv](https://img.shields.io/badge/Paper-arXiv-red.svg)](https://arxiv.org/abs/2505.16933)
 [![deploy](https://img.shields.io/badge/Hugging%20Face-LLaDA_V-FFEB3B)](https://huggingface.co/GSAI-ML/LLaDA-V)
 
@@ -6,15 +6,15 @@
 ## News
 - [2025.06.30] [Fast-dLLM](https://github.com/NVlabs/Fast-dLLM) is now supported in LLaDA-V! This integration accelerates inference latency from 60s to just 6s. Try it out [here](https://github.com/ML-GSAI/LLaDA-V/blob/main/train/generate_demo.py)! 
 - [2025.05.29] We open-sourced the model [LLaDA-V](https://huggingface.co/GSAI-ML/LLaDA-V) and the code of LLaDA-V.
-- [2025.05.23] We have uploaded our paper to [arXiv](https://arxiv.org/abs/2505.16933).
+- [2025.05.23] We have uploaded our paper to [arXiv](https://arxiv.org/abs/2505.16933). -->
 
   
-## Introduction
- We introduce LLaDA-V, a competitive diffusion-based vision-language model, outperforming other diffusion MLLMs.
+<!-- ## Introduction
+ We introduce LLaDA-V, a competitive diffusion-based vision-language model, outperforming other diffusion MLLMs. -->
 
 
 ### Quick Inference Demo
-The [LLaDA-V model](https://huggingface.co/GSAI-ML/LLaDA-V) is now available on Hugging Face Hub. To quickly test the model with a visual instruction demo, follow these simple steps:
+<!-- The [LLaDA-V model](https://huggingface.co/GSAI-ML/LLaDA-V) is now available on Hugging Face Hub. To quickly test the model with a visual instruction demo, follow these simple steps: -->
 
 1. **Clone the repository**  
    ```bash
@@ -32,7 +32,7 @@ The [LLaDA-V model](https://huggingface.co/GSAI-ML/LLaDA-V) is now available on 
    python generate_demo.py
    ```
 
-## Training from LLaDA
+<!-- ## Training from LLaDA
 This repository includes a complete training framework for LLaDA-V, following the [LLaVA](https://github.com/haotian-liu/LLaVA) approach for visual instruction tuning. 
 
 ### Data Preparation
@@ -124,14 +124,14 @@ Stage 3 Script:
    cd train && bash scripts/train_llada_v/llada_v_vw.sh
 
    cd train && bash scripts/train_llada_v/llada_v_mix_ov_vw.sh
-```
+``` -->
 
-## Finetune from LLaDA-V
+<!-- ## Finetune from LLaDA-V
 ```bash
 Script: 
    cd train && bash scripts/llada_v_finetune.sh
    note: you need to add the path of "data_path", "image_folder", "video_folder" in llada_v_finetune.sh.
-```
+``` -->
 
 
 ## Evaluation
@@ -153,24 +153,24 @@ We provide the evaluation code in this repository, following the [lmms-eval](htt
    cd eval && bash scripts/evaluate.sh
    ```
 
-## Contact
-If you have any questions, please feel free to contact us at zebin@ruc.edu.cn.
+<!-- ## Contact
+If you have any questions, please feel free to contact us at zebin@ruc.edu.cn. -->
 
-
+<!-- 
 ## Acknowledgments
 The code is largely based on the [LLaVA-NeXT](https://github.com/LLaVA-VL/LLaVA-NeXT), [MAmmoTH-VL](https://github.com/MAmmoTH-VL/MAmmoTH-VL), [lmms-eval](https://github.com/EvolvingLMMs-Lab/lmms-eval) and [dLLM-cache](https://github.com/maomaocun/dLLM-cache/tree/main). We thank the authors for their great work. 
 
-We are also very grateful to Chengyue for helping us adapt [Fast-dLLM](https://github.com/NVlabs/Fast-dLLM), which significantly accelerates the generation process.
-
+We are also very grateful to Chengyue for helping us adapt [Fast-dLLM](https://github.com/NVlabs/Fast-dLLM), which significantly accelerates the generation process. -->
+<!-- 
 ## Discussion
 
 Feel free to scan the WeChat QR code below to participate in the discussion and stay updated with the latest progress.
 
 <div style="display: flex; justify-content: center; flex-wrap: wrap;">
     <img src="https://github.com/ML-GSAI/LLaDA/blob/main/imgs/QR.JPG" style="width: 50%" />
-</div>
+</div> -->
 
-## Citation
+<!-- ## Citation
 
 ```bibtex
 @article{you2025llada,
@@ -178,7 +178,7 @@ Feel free to scan the WeChat QR code below to participate in the discussion and 
   author={You, Zebin and Nie, Shen and Zhang, Xiaolu and Hu, Jun and Zhou, Jun and Lu, Zhiwu and Wen, Ji-Rong and Li, Chongxuan},
   journal={arXiv preprint arXiv:2505.16933},
   year={2025}
-}
-```
+} -->
+<!-- ``` -->
 
 
