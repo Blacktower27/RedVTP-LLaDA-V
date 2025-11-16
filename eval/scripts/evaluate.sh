@@ -1,7 +1,6 @@
 # Define multiple model paths
 # Ablation Models
 export WANDB_DISABLED=true
-export OPENAI_API_KEY='sk-proj-Lgbjce-5TJ46IT0FIzEu6cVX_gsD--jsanh5J'uY0LQ2c5y7xMkRJTBpbPD-PsIiX5a-FoYx7mDT3BlbkFJZuEbXmRTyZ-cb3m11VLSrLE5O4z3Brt0dwrSv57vWn7vD9JPTsrAtZj6VcFyZOn4Ijm2vF0ckA
 MODEL_PATHS=(
     "GSAI-ML/LLaDA-V"
 )
