@@ -18,7 +18,7 @@
 
 1. **Clone the repository**  
    ```bash
-   git clone https://github.com/ML-GSAI/LLaDA-V
+   git clone https://github.com/Blacktower27/RedVTP-LLaDA-V
    cd LLaDA-V/train
    ```
 2. **Initialize the environment**  
@@ -139,7 +139,7 @@ We provide the evaluation code in this repository, following the [lmms-eval](htt
 
 1. **Clone the repository**  
    ```bash
-   git clone https://github.com/ML-GSAI/LLaDA-V
+   git clone https://github.com/Blacktower27/RedVTP-LLaDA-V
    cd LLaDA-V
    ```
 2. **Initialize the environment**  
