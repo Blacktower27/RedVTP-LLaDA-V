@@ -148,12 +148,12 @@ We provide the evaluation code in this repository, following the [lmms-eval](htt
    bash init_env.sh
    ```
 3. **Run the demo script**  
-   Execute the demo script to test LLaDA-V on an example image:
+   Execute the demo script to test RedVTP-LLaDA-V on an example image:
    ```bash
    cd eval && bash scripts/evaluate.sh
    ```
 4. **Modify the retaining ratio** 
-   Change the ratio at line 1546 in `LLaDA-V/train/llava/model/language_model/modeling_llada.py`:
+   Change the ratio at line 1546 in `RedVTP-LLaDA-V/train/llava/model/language_model/modeling_llada.py`:
    ```
    keep_ratio = 0.50
    ```
