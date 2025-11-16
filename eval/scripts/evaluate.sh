@@ -1,5 +1,7 @@
 # Define multiple model paths
 # Ablation Models
+export WANDB_DISABLED=true
+export OPENAI_API_KEY='sk-proj-Lgbjce-5TJ46IT0FIzEu6cVX_gsD--jsanh5J'uY0LQ2c5y7xMkRJTBpbPD-PsIiX5a-FoYx7mDT3BlbkFJZuEbXmRTyZ-cb3m11VLSrLE5O4z3Brt0dwrSv57vWn7vD9JPTsrAtZj6VcFyZOn4Ijm2vF0ckA
 MODEL_PATHS=(
     "GSAI-ML/LLaDA-V"
 )
@@ -7,14 +9,22 @@ MODEL_PATHS=(
 # Set output path
 OUTPUT_PATH=exp/llava_v_eval
 # Set task names
-TASK_NAMES="mmmu_val,mmmu_pro_standard,mmstar,ai2d,seedbench,mmbench_en_dev,mmmu_pro_vision,muirbench,videomme,mlvu_dev,mme,realworldqa,chartqa,docvqa_val,infovqa_val,mathvista_testmini,mathverse_testmini_vision"
+#TASK_NAMES="mmmu_val,mmmu_pro_standard,mmstar,ai2d,seedbench,mmbench_en_dev,mmmu_pro_vision,muirbench,videomme,mlvu_dev,mme,realworldqa,chartqa,docvqa_val,infovqa_val,mathvista_testmini,mathverse_testmini_vision"
+# TASK_NAMES="mme,mathvista_testmini,realworldqa"
+# TASK_NAMES="infovqa_val"
+TASK_NAMES="docvqa_val"
+# TASK_NAMES="realworldqa, ai2d"
+# TASK_NAMES="docvqa_val, infovqa_val"
+# TASK_NAMES="ai2d, chartqa, docvqa_val, realworldqa, infovqa_val"
+# TASK_NAMES="ai2d"
 
-TOTAL_GPUS=8
+TOTAL_GPUS=3
+NUM_START=2
 declare -A GPU_STATUS  # Record GPU status: 0=idle, 1=busy
 declare -A GPU_PIDS    # Record PIDs of tasks running on each GPU
 
 # Initialize GPU status
-for ((gpu=0; gpu<TOTAL_GPUS; gpu++)); do
+for ((gpu=NUM_START; gpu<TOTAL_GPUS; gpu++)); do
     GPU_STATUS[$gpu]=0
 done
 
@@ -67,7 +77,7 @@ echo "Total $TOTAL_TASKS evaluation tasks to execute"
 # Main loop until all tasks are completed
 while [ $FINISHED_TASKS -lt $TOTAL_TASKS ]; do
     # Check completed background tasks and release GPU
-    for ((gpu=0; gpu<TOTAL_GPUS; gpu++)); do
+    for ((gpu=NUM_START; gpu<TOTAL_GPUS; gpu++)); do
         if [[ ${GPU_STATUS[$gpu]} -eq 1 && -n "${GPU_PIDS[$gpu]}" ]]; then # If GPU is marked as busy and has PID
             if ! kill -0 ${GPU_PIDS[$gpu]} 2>/dev/null; then  # Check if task process is still running
                 echo "Detected task on GPU $gpu (PID: ${GPU_PIDS[$gpu]}) has completed or exited abnormally."
@@ -81,7 +91,7 @@ while [ $FINISHED_TASKS -lt $TOTAL_TASKS ]; do
 
     # Assign new tasks to idle GPUs (if there are tasks not started)
     if [ $COMPLETED_TASKS -lt $TOTAL_TASKS ]; then # Make sure there are still tasks to start
-        for ((gpu=0; gpu<TOTAL_GPUS; gpu++)); do
+        for ((gpu=NUM_START; gpu<TOTAL_GPUS; gpu++)); do
             if [[ ${GPU_STATUS[$gpu]} -eq 0 && $COMPLETED_TASKS -lt $TOTAL_TASKS ]]; then # If GPU is idle and there are tasks not started
                 # Get current task
                 CURRENT_TASK_STRING="${TASK_QUEUE[$COMPLETED_TASKS]}"
@@ -135,8 +145,6 @@ while [ $FINISHED_TASKS -lt $TOTAL_TASKS ]; do
         done
     fi
 
-    # Short wait to avoid CPU spinning too frequently
-    if [ $FINISHED_TASKS -lt $TOTAL_TASKS ]; then # Only sleep if there are still tasks to complete
     # Brief wait to avoid CPU spinning too frequently
     if [ $FINISHED_TASKS -lt $TOTAL_TASKS ]; then # Only sleep when there are unfinished tasks
         sleep 10 # Can adjust wait time based on actual situation

@@ -630,7 +630,10 @@ class Llava_OneVision_LLaDA(lmms):
 
                 text_outputs = self.tokenizer.batch_decode(cont, skip_special_tokens=True)
                 text_outputs = [output[:-1] if output.endswith('.') else output for output in text_outputs]
-                num_tokens += (cont != self.tokenizer.eos_token_id).sum()
+                num_new_token = (cont != self.tokenizer.eos_token_id).sum()
+                num_tokens += num_new_token
+                # print('num_new_token:', num_new_token)
+                # print('tokens:',self.tokenizer.convert_ids_to_tokens(cont[0]))
 
                 print(text_outputs)
                 print('--------------------------------')
@@ -644,9 +647,12 @@ class Llava_OneVision_LLaDA(lmms):
             # reorder this group of results back to original unsorted form
         res = re_ords.get_original(res)
         end_time = time.time()
+        total_time = end_time - start_time
+        avg_latency = total_time / len(requests) if len(requests) > 0 else 0.0
         print(f"Time taken: {end_time - start_time} seconds")
         print(f"Tokens per second: {num_tokens / (end_time - start_time)}")
         print(f"Total number of tokens: {num_tokens}")
+        print(f"Average inference latency per sample: {avg_latency} seconds")
         pbar.close()
         return res
 

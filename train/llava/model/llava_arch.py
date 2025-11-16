@@ -376,6 +376,7 @@ class LlavaMetaForCausalLM(ABC):
             concat_images = torch.cat([image for image in images_list], dim=0)
             split_sizes = [image.shape[0] for image in images_list]
             encoded_image_features = self.encode_images(concat_images)
+            # print('asdfasdf',encoded_image_features.shape)
             # image_features,all_faster_video_features = self.encode_multimodals(concat_images, video_idx_in_batch, split_sizes)
 
             # This is a list, each element is [num_images, patch * patch, dim]
@@ -393,6 +394,9 @@ class LlavaMetaForCausalLM(ABC):
             mm_patch_merge_type = getattr(self.config, "mm_patch_merge_type", "flat")
             image_aspect_ratio = getattr(self.config, "image_aspect_ratio", "square")
             mm_newline_position = getattr(self.config, "mm_newline_position", "one_token")
+            # print('mm_patch_merge_type:',mm_patch_merge_type)
+            # print('image_aspect_ratio:',image_aspect_ratio)
+            # print('mm_newline_position:',mm_newline_position)
 
             if mm_patch_merge_type == "flat":
                 image_features = [x.flatten(0, 1) for x in image_features]
@@ -514,7 +518,6 @@ class LlavaMetaForCausalLM(ABC):
                 raise ValueError(f"Unexpected mm_patch_merge_type: {self.config.mm_patch_merge_type}")
         else:
             image_features = self.encode_images(images)
-
         # TODO: image start / end is not implemented here to support pretraining.
         if getattr(self.config, "tune_mm_mlp_adapter", False) and getattr(self.config, "mm_use_im_start_end", False):
             raise NotImplementedError
@@ -545,6 +548,8 @@ class LlavaMetaForCausalLM(ABC):
         new_labels = []
         cur_image_idx = 0
         # rank_print("Inserting Images embedding")
+        # all_image_positions = []
+     
         for batch_idx, cur_input_ids in enumerate(input_ids):
             num_images = (cur_input_ids == IMAGE_TOKEN_INDEX).sum()
             # rank0_print(num_images)
@@ -556,6 +561,15 @@ class LlavaMetaForCausalLM(ABC):
                 new_labels.append(labels[batch_idx])
                 cur_image_idx += 1
                 continue
+            
+            # record visual token position,pos_tensor is the start position of visual tokens in in_emb 
+            pos_tensor = torch.where(cur_input_ids == IMAGE_TOKEN_INDEX)[0]
+            if len(pos_tensor) > 0:
+                image_token_position = int(pos_tensor[0].item())  # 取第一个位置，保证是 int
+            else:
+                image_token_position = None
+            # all_image_positions.append(image_token_position)
+            print('image position:',image_token_position)
 
             image_token_indices = [-1] + torch.where(cur_input_ids == IMAGE_TOKEN_INDEX)[0].tolist() + [cur_input_ids.shape[0]]
             cur_input_ids_noim = []
@@ -579,9 +593,11 @@ class LlavaMetaForCausalLM(ABC):
                     except IndexError:
                         cur_image_features = image_features[cur_image_idx - 1]
                     cur_image_idx += 1
+                    num_visual_tokens = cur_image_features.shape[0]
+                    # print(f"[Batch {batch_idx}] Image {i}: {cur_image_features.shape} visual tokens")
                     cur_new_input_embeds.append(cur_image_features)
                     cur_new_labels.append(torch.full((cur_image_features.shape[0],), IGNORE_INDEX, device=cur_labels.device, dtype=cur_labels.dtype))
-
+            print('num_visual_tokens:',num_visual_tokens)
             cur_new_input_embeds = [x.to(self.device) for x in cur_new_input_embeds]
 
             # import pdb; pdb.set_trace()
@@ -629,7 +645,7 @@ class LlavaMetaForCausalLM(ABC):
 
         new_input_embeds = torch.stack(new_input_embeds_padded, dim=0)
         # rank0_print("tokenizer padding")
-
+        # print(new_input_embeds_padded[0].shape)
         if _labels is None:
             new_labels = None
         else:
@@ -656,7 +672,9 @@ class LlavaMetaForCausalLM(ABC):
             return None, position_ids, attention_mask, past_key_values, new_input_embeds, new_labels, conversation_ids
         # import pdb; pdb.set_trace()
         # rank0_print("Finish preparing")
-        return None, position_ids, attention_mask, past_key_values, new_input_embeds, new_labels
+        return None, position_ids, attention_mask, past_key_values, new_input_embeds, new_labels, image_token_position, num_visual_tokens
+        # return None, position_ids, attention_mask, past_key_values, new_input_embeds, new_labels
+
 
     def initialize_vision_tokenizer(self, model_args, tokenizer):
         if model_args.mm_use_im_patch_token:

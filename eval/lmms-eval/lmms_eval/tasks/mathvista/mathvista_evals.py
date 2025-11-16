@@ -212,7 +212,7 @@ class MathVistaEvaluator:
                     payload["messages"] = [
                         {"role": "user", "content": prompt},
                     ]
-
+                time.sleep(61)
                 if sleep_time > 0:
                     time.sleep(sleep_time)
         return ""
