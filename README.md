@@ -152,7 +152,7 @@ We provide the evaluation code in this repository, following the [lmms-eval](htt
    ```bash
    cd eval && bash scripts/evaluate.sh
    ```
-4. **Modify the pruning ratio** 
+4. **Modify the retaining ratio** 
    Change the ratio at line 1546 in `LLaDA-V/train/llava/model/language_model/modeling_llada.py`:
    ```
    keep_ratio = 0.50
