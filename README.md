@@ -19,7 +19,7 @@
 1. **Clone the repository**  
    ```bash
    git clone https://github.com/Blacktower27/RedVTP-LLaDA-V
-   cd LLaDA-V/train
+   cd RedVTP-LLaDA-V/train
    ```
 2. **Initialize the environment**  
    Run the environment setup script to install necessary dependencies:
@@ -140,7 +140,7 @@ We provide the evaluation code in this repository, following the [lmms-eval](htt
 1. **Clone the repository**  
    ```bash
    git clone https://github.com/Blacktower27/RedVTP-LLaDA-V
-   cd LLaDA-V
+   cd RedVTP-LLaDA-V
    ```
 2. **Initialize the environment**  
    Run the environment setup script to install necessary dependencies:
