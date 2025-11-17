@@ -15,18 +15,12 @@
 
 ### Quick Inference Demo
 <!-- The [LLaDA-V model](https://huggingface.co/GSAI-ML/LLaDA-V) is now available on Hugging Face Hub. To quickly test the model with a visual instruction demo, follow these simple steps: -->
-
-1. **Clone the repository**  
-   ```bash
-   git clone https://github.com/Blacktower27/RedVTP-LLaDA-V
-   cd RedVTP-LLaDA-V/train
-   ```
-2. **Initialize the environment**  
+1. **Initialize the environment**  
    Run the environment setup script to install necessary dependencies:
    ```bash
    bash init_env.sh
    ```
-3. **Run the demo script**  
+2. **Run the demo script**  
    Execute the demo script to test LLaDA-V on an example image:
    ```bash
    python generate_demo.py
@@ -136,23 +130,17 @@ Script:
 
 ## Evaluation
 We provide the evaluation code in this repository, following the [lmms-eval](https://github.com/EvolvingLMMs-Lab/lmms-eval) library. 
-
-1. **Clone the repository**  
-   ```bash
-   git clone https://github.com/Blacktower27/RedVTP-LLaDA-V
-   cd RedVTP-LLaDA-V
-   ```
-2. **Initialize the environment**  
+1. **Initialize the environment**  
    Run the environment setup script to install necessary dependencies:
    ```bash
    bash init_env.sh
    ```
-3. **Run the demo script**  
+2. **Run the demo script**  
    Execute the demo script to test RedVTP-LLaDA-V on an example image:
    ```bash
    cd eval && bash scripts/evaluate.sh
    ```
-4. **Modify the retaining ratio** 
+3. **Modify the retaining ratio** 
    Change the ratio at line 1546 in `RedVTP-LLaDA-V/train/llava/model/language_model/modeling_llada.py`:
    ```
    keep_ratio = 0.50
